@@ -1,8 +1,8 @@
 [commit]
-	gpgsign = true
+  gpgsign = true
 [core]
-	autocrlf = input
-	pager = bat
+  autocrlf = input
+  pager = bat
 [init]
   defaultBranch = main
 [include]
