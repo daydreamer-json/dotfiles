@@ -1,0 +1,9 @@
+[commit]
+	gpgsign = true
+[core]
+	autocrlf = input
+	pager = bat
+[init]
+  defaultBranch = main
+[include]
+  path = ~/.gitconfig.local
