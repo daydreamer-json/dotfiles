@@ -35,16 +35,16 @@ DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 run() {
   if $DRY_RUN; then
-    dry "⚡ (dry-run) $*"
+    dry "(dry-run) $*"
   else
     "$@"
   fi
 }
 
 link_file() {
-  local src="$1" dest="$2"
-  echo "    📄 file src:  ${CYAN}$src${RESET}"
-  echo "       file dest: ${CYAN}$dest${RESET}"
+  local src="$DOTFILES_DIR/$1" dest="${2:+$HOME/$2}"
+  dest="${dest:-$HOME/$1}"
+  echo "    📄 file:      ${CYAN}$1${RESET}"
   if [ -e "$dest" ] || [ -L "$dest" ]; then
     local current
     current="$(readlink "$dest" 2>/dev/null || echo "")"
@@ -62,9 +62,9 @@ link_file() {
 }
 
 link_dir() {
-  local src="$1" dest="$2"
-  echo "    📁 dir  src:  ${CYAN}$src${RESET}"
-  echo "       dir  dest: ${CYAN}$dest${RESET}"
+  local src="$DOTFILES_DIR/$1" dest="${2:+$HOME/$2}"
+  dest="${dest:-$HOME/$1}"
+  echo "    📁 dir:       ${CYAN}$1${RESET}"
   if [ -L "$dest" ]; then
     local current
     current="$(readlink "$dest" 2>/dev/null || echo "")"
@@ -90,13 +90,14 @@ info  "dotfiles dir: ${BOLD}$DOTFILES_DIR${RESET}"
 info  "home dir:     ${BOLD}$HOME${RESET}"
 echo ""
 
-link_file "$DOTFILES_DIR/.bashrc" "$HOME/.bashrc"
-link_file "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
+link_file .bashrc
+link_file .gitconfig
 
-link_dir "$DOTFILES_DIR/.config/fontconfig" "$HOME/.config/fontconfig"
-link_dir "$DOTFILES_DIR/.config/pipewire" "$HOME/.config/pipewire"
-link_dir "$DOTFILES_DIR/.config/wireplumber" "$HOME/.config/wireplumber"
+link_dir .config/fontconfig
+link_dir .config/mpv
+link_dir .config/pipewire
+link_dir .config/wireplumber
 
-link_file "$DOTFILES_DIR/.config/starship.toml" "$HOME/.config/starship.toml"
+link_file .config/starship.toml
 
 header "✅ All done!"
